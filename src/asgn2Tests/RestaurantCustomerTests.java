@@ -25,6 +25,19 @@ public class RestaurantCustomerTests {
 			
 		}
 	
+	@Test 
+	public void CustomerIndexTest() throws PizzaException, CustomerException, LogHandlerException{
+		PizzaRestaurant testRestaurant= new PizzaRestaurant();
+		testRestaurant.processLog("20170101.txt");
+		assertEquals(10, testRestaurant.getCustomerByIndex(0).getDeliveryDistance(),0.1);
+	}
+	
+	@Test 
+	public void CustomerSizeTest() throws PizzaException, CustomerException, LogHandlerException{
+		PizzaRestaurant testRestaurant= new PizzaRestaurant();
+		testRestaurant.processLog("20170101.txt");
+		assertEquals(3, testRestaurant.getNumCustomerOrders());
+	}	
 		
 	
 
@@ -33,7 +46,7 @@ public void totalDistance() throws CustomerException, PizzaException, LogHandler
 	PizzaRestaurant testRestaurant= new PizzaRestaurant();
 	assertEquals(true,testRestaurant.processLog("20170101.txt"));
 	
-	System.out.println(testRestaurant.getTotalDeliveryDistance());
+	assertEquals(15,testRestaurant.getTotalDeliveryDistance(),0.01);
 		
 	}
 	

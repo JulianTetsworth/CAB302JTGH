@@ -95,11 +95,11 @@ public class PizzaRestaurant {
 	 * @throws CustomerException if index is invalid.
 	 */
 	public Customer getCustomerByIndex(int index) throws CustomerException{
-		if(index>customers.size()||index==0){
+		if(index>this.customers.size()){
 			throw new CustomerException("Invalid index");
 		}
 		
-		return customers.get(index);
+		return this.customers.get(index);
 	}
 	
 	/**

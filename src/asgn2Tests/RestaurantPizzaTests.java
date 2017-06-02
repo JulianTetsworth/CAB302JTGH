@@ -31,7 +31,7 @@ public class RestaurantPizzaTests {
 	@Test 
 	public void DeconstructorTest() throws PizzaException{ 
 		restaurant.resetDetails();
-		assertEquals(null, restaurant);
+		assertEquals(0, restaurant.getNumPizzaOrders());
 	}
 	
 	@Test 

@@ -11,8 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
 
-//import asgn2Customers.Customer;
-//import asgn2Pizzas.Pizza;
+import asgn2Customers.Customer;
+import asgn2Exceptions.CustomerException;
+import asgn2Customers.Customer;
+import asgn2Pizzas.Pizza;
 import asgn2Restaurant.PizzaRestaurant;
 
 import javax.swing.JFrame;
@@ -45,37 +47,105 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	 */
 	public PizzaGUI(String title) {
 		JFrame f=new JFrame(); 
-		f.setSize(400,500);
+		f.setSize(1200,900);
 		f.setLayout(null);
 		f.setVisible(true);
 		
-		JButton loadFile=new JButton("Load File");
-		loadFile.setBounds(130,100,100, 40);          
-		f.add(loadFile);
-		loadFile.addActionListener(this);     
-		
 		JButton displayInfo=new JButton("displayInfo");
-		loadFile.setBounds(130,100,100, 40);          
+		displayInfo.setBounds(400,700,100, 40); 
+		displayInfo.setEnabled(false);
+		f.add(displayInfo);
+		
+		JButton loadFile=new JButton("Load File");
+		loadFile.setBounds(200,700,100, 40);          
 		f.add(loadFile);
-		loadFile.addActionListener(this); 
-
-	}
+		
+		JLabel customerLabel = new JLabel("Customer Data");
+		customerLabel.setBounds(50, 30, 500, 40);
+		f.add(customerLabel);
+		customerLabel.setVisible(false);
+		
+		JTextArea CustomerDetails=new JTextArea(); 
+		CustomerDetails.setBounds(50, 70, 500, 400);
+		f.add(CustomerDetails);
+		CustomerDetails.setVisible(false);
+		
+		
+		JLabel pizzaLabel = new JLabel("Pizza Data");
+		pizzaLabel.setBounds(650, 30, 500, 40);
+		f.add(pizzaLabel);
+		pizzaLabel.setVisible(false);
+		
+		JTextArea PizzaDetails=new JTextArea(); 
+		PizzaDetails.setBounds(650, 70, 500, 400);
+		f.add(PizzaDetails);
+		PizzaDetails.setVisible(false);
+		
+		loadFile.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+						
+				JFileChooser chooser = new JFileChooser();
+			    int returnVal = chooser.showOpenDialog(getParent());
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       System.out.println("You chose to open this file: " +
+			            chooser.getSelectedFile().getName());
+			       try {
+			       		restaurant.processLog(chooser.getSelectedFile().getName());
+			       		displayInfo.setEnabled(true);
+			       		
+			       } catch (Exception LogFileException){
+			    	   System.err.println("Error " + LogFileException.getMessage());
+			    	   fileIsLoaded = false;
+			       }
+			    }
+						
+					}
+				}	
+				
+							
+			);     
+		
+		
+		displayInfo.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				CustomerDetails.setVisible(true);
+				PizzaDetails.setVisible(true);
+				pizzaLabel.setVisible(true);
+				customerLabel.setVisible(true);
+				String Customermessage="Customer Name            Mobile          Type                X           Y         Distance \n";
+				String Pizzamessage="Type        Quantity      Order Price       Order Cost       Order Profit \n";
+				
+				for(int i=0;i<restaurant.getNumCustomerOrders();i++){
+					
+					try{
+						Pizza pizzas=restaurant.getPizzaByIndex(i);
+						Customer customers= restaurant.getCustomerByIndex(i);
+					Pizzamessage+=pizzas.getPizzaType()+"           " +pizzas.getQuantity()+ "         "+pizzas.getOrderPrice() +"                    "+ pizzas.getOrderCost()+ "             " +pizzas.getOrderProfit()+"\n";
+					Customermessage+=customers.getName()+"       "+customers.getMobileNumber()+"       "+customers.getCustomerType()+"     " + customers.getLocationX()+ "      "+ customers.getLocationY()+ "      " +customers.getDeliveryDistance()+" \n";
+					}		
+					catch (Exception CustomerException){					
+						
+				}		
+					
+					
+					
+				}
+				PizzaDetails.setText(Pizzamessage);
+				CustomerDetails.setText(Customermessage);
+					
 	
+			} } );
+		
+		
+		
+		
+		
+		
+	}
 	 public void actionPerformed(ActionEvent e) {
-		 JFileChooser chooser = new JFileChooser();
-		    int returnVal = chooser.showOpenDialog(getParent());
-		    if(returnVal == JFileChooser.APPROVE_OPTION) {
-		       System.out.println("You chose to open this file: " +
-		            chooser.getSelectedFile().getName());
-		       try {
-		       		restaurant.processLog(chooser.getSelectedFile().getName());
-		       		fileIsLoaded = true; 
-		       		
-		       } catch (Exception LogFileException){
-		    	   System.err.println("Error " + LogFileException.getMessage());
-		    	   fileIsLoaded = false;
-		       }
-		    }
+		 
  }
 
 	// private void displayInformatio  
