@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
 
-import asgn2Customers.Customer;
-import asgn2Pizzas.Pizza;
+//import asgn2Customers.Customer;
+//import asgn2Pizzas.Pizza;
 import asgn2Restaurant.PizzaRestaurant;
 
 import javax.swing.JFrame;
 
-import java.awt.*;
+//import java.awt.*;
 import javax.swing.*;
 
 
@@ -57,9 +57,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	
 	 public void actionPerformed(ActionEvent e) {
 		 JFileChooser chooser = new JFileChooser();
-		    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-		        "JPG & GIF Images", "jpg", "gif");
-		    chooser.setFileFilter(filter);
 		    int returnVal = chooser.showOpenDialog(getParent());
 		    if(returnVal == JFileChooser.APPROVE_OPTION) {
 		       System.out.println("You chose to open this file: " +

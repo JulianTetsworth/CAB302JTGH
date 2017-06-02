@@ -1,5 +1,6 @@
 package asgn2Restaurant;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import asgn2Customers.Customer;
@@ -7,7 +8,7 @@ import asgn2Exceptions.CustomerException;
 import asgn2Exceptions.LogHandlerException;
 import asgn2Exceptions.PizzaException;
 import asgn2Pizzas.Pizza;
-import asgn2Pizzas.PizzaFactory;
+
 
 /**
  * This class acts as a ‘model’ of a pizza restaurant. It contains an ArrayList of Pizza objects and an ArrayList of  Customer objects.
@@ -23,8 +24,8 @@ import asgn2Pizzas.PizzaFactory;
  */
 public class PizzaRestaurant {
 
-	private ArrayList<Customer> customers;
-	private ArrayList<Pizza> pizzas;
+	 ArrayList<Customer> customers=new ArrayList<Customer>();
+	ArrayList<Pizza> pizzas= new ArrayList<Pizza>();
 
 	
 	/**
@@ -70,10 +71,7 @@ public class PizzaRestaurant {
 			noException=false;
 		
 		}
-		if(pizzas.size()==0||customers.size()==0){
-			noException=false;
-			throw new LogHandlerException("The Log was empty");
-		}
+		
 		
 		if (noException==false){
 			resetDetails();
@@ -95,6 +93,11 @@ public class PizzaRestaurant {
 	 * @throws CustomerException if index is invalid.
 	 */
 	public Customer getCustomerByIndex(int index) throws CustomerException{
+		if(index>customers.size()||index==0){
+			throw new CustomerException("Invalid index");
+		}
+		
+		return customers.get(index);
 	}
 	
 	/**
@@ -127,7 +130,7 @@ public class PizzaRestaurant {
 	 * @return the number of objects contained in the customers field.
 	 */
 	public int getNumCustomerOrders(){
-		// TO DO
+		return customers.size();
 	}
 
 			
@@ -138,7 +141,13 @@ public class PizzaRestaurant {
 	 * @return the total delivery distance for all Customers objects in the customers field.
 	 */
 	public double getTotalDeliveryDistance(){
+		double distance=0;
 		
+	for(int i=0;i<customers.size();i++){
+		distance+=customers.get(i).getDeliveryDistance();
+	}
+	
+	return distance;
 	}
 
 	/**

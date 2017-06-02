@@ -11,7 +11,9 @@ import asgn2Exceptions.CustomerException;
  *
  */
 public class DriverDeliveryCustomer extends Customer {
-
+	private int locationX;
+	private int locationY;
+	
 	/**
 	 *  This class represents a customer of the Pizza Palace restaurant that has chosen to have their pizza delivered by 
 	 *  a driver.  A CustomerException is thrown if the any of the constraints listed in Section 5.2 of the Assignment
@@ -28,7 +30,16 @@ public class DriverDeliveryCustomer extends Customer {
 	 * 
 	 */
 	public DriverDeliveryCustomer(String name, String mobileNumber, int locationX, int locationY) throws CustomerException {
-		// TO DO
+		super(name,mobileNumber,locationX,locationY,"Driver Delivery");
+		if (name.length()==0||name.length()>20||name.trim().length() > 0||mobileNumber.charAt(0)!=0||mobileNumber.length()!=10||locationX>10||locationX<-10
+				||locationY>10||locationY<-10){
+			throw new CustomerException(); 
+		}
+		else{
+			this.locationX=locationX;
+			this.locationY=locationY;
+		}
+		
 	}
 	
 	/**
@@ -38,6 +49,6 @@ public class DriverDeliveryCustomer extends Customer {
 	 * @return The distance between the restaurant and the customer in Manhattan distance.
 	 */
 	@Override
-	public double getDeliveryDistance() {	}
-
+	public double getDeliveryDistance() {	
+	return Math.abs(this.locationX)+Math.abs(this.locationY);}
 }

@@ -11,7 +11,11 @@ import asgn2Exceptions.CustomerException;
  * @author Person B
 */
 public abstract class Customer {
-
+	private int locationX;
+	private int locationY;
+	private String name;
+	private String mobileNumber;
+	private String type;
 
 	/**
 	 *  This class represents a customer of the Pizza Palace restaurant.  A detailed description of the class's fields
@@ -31,15 +35,26 @@ public abstract class Customer {
 	 * 
 	 */
 	public Customer(String name, String mobileNumber, int locationX, int locationY, String type) throws CustomerException{
-		// TO DO
-	}
+		if (name.length()==0||name.length()>20||name.trim().length() > 0||mobileNumber.charAt(0)!=0||mobileNumber.length()!=10||locationX>10||locationX<-10
+				||locationY>10||locationY<-10){
+			throw new CustomerException();
+		}
+		else {
+			this.locationX=locationX;
+			this.name=name;
+			this.mobileNumber=mobileNumber;
+			this.type=type;
+			
+		
+		
+	}}
 	
 	/**
 	 * Returns the Customer's name.
 	 * @return The Customer's name.
 	 */
 	public final String getName(){
-		// TO DO
+		return this.name;
 	}
 	
 	/**
@@ -47,7 +62,7 @@ public abstract class Customer {
 	 * @return The Customer's mobile number.
 	 */
 	public final String getMobileNumber(){
-		// TO DO
+		return this.mobileNumber;
 	}
 
 	/**
@@ -56,7 +71,7 @@ public abstract class Customer {
 	 * @return A human understandable description of the Customer's type.
 	 */
 	public final String getCustomerType(){
-		// TO DO
+		return this.type;
 	}
 	
 	/**
@@ -65,7 +80,7 @@ public abstract class Customer {
 	 * @return The Customer's X location
 	 */
 	public final int getLocationX(){
-		// TO DO
+		return this.locationX;
 	}
 
 	/**
@@ -74,7 +89,7 @@ public abstract class Customer {
 	 * @return The Customer's Y location
 	 */
 	public final int getLocationY(){
-		// TO DO
+		return this.locationY;
 	}
 
 	/**

@@ -2,12 +2,14 @@ package asgn2Restaurant;
 
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import asgn2Customers.Customer;
+import asgn2Customers.CustomerFactory;
 import asgn2Exceptions.CustomerException;
 import asgn2Exceptions.LogHandlerException;
 import asgn2Exceptions.PizzaException;
@@ -35,8 +37,29 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
-		// TO DO
-	}		
+		ArrayList<Customer> customerList=null;
+	
+		try{
+			
+			Scanner input = new Scanner(new File(filename));
+			if(!input.hasNextLine()){ throw new LogHandlerException("Log file empty"); }
+				
+			else{
+			while(input.hasNextLine()){
+				String line= input.nextLine();
+				try{
+				customerList.add(createCustomer(line));
+				} catch (Exception CustomerException){
+					System.err.println(CustomerException.getMessage());}
+				}			
+			
+			input.close();}
+				} catch (Exception LogHandlerException){
+					  System.err.println("Error: " + LogHandlerException.getMessage());
+				}
+			
+		return customerList;
+	}
 
 	/**
 	 * Returns an ArrayList of Pizza objects from the information contained in the log file ordered as they appear in the log file. .
@@ -47,17 +70,20 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
-		ArrayList<Pizza> PizzaList = null;
+		ArrayList<Pizza> PizzaList= new ArrayList<Pizza>();
+		
 		
 		try{
 			Scanner input = new Scanner(new File(filename));
 			while(input.hasNextLine()){
 				try{
+				
 				PizzaList.add(createPizza(input.nextLine()));
 				} catch (Exception PizzaException){
 					System.err.println("Error " + PizzaException.getMessage());
 				}
 			}
+			input.close();
 		}
 		catch (Exception LogHandlerException){
 			System.err.println("Error " + LogHandlerException.getMessage());
@@ -75,7 +101,23 @@ public class LogHandler {
 	 * @throws LogHandlerException - If there was a problem parsing the line from the log file.
 	 */
 	public static Customer createCustomer(String line) throws CustomerException, LogHandlerException{
-		// TO DO
+		Customer newCustomer=null;
+		CustomerFactory factory= new CustomerFactory();
+		
+		
+		String strArray[]=line.split(",");
+		
+		if(Array.getLength(strArray)!=8){throw new LogHandlerException("");}
+		try{
+		newCustomer=factory.getCustomer(strArray[4],strArray[2],strArray[3],Integer.parseInt(strArray[4]),Integer.parseInt(strArray[5]));
+		}catch(Exception CustomerException){
+			System.err.println("Error: " + CustomerException.getMessage());
+		}
+		return newCustomer;
+	
+		
+		
+		
 	}
 	
 	/**
@@ -87,14 +129,13 @@ public class LogHandler {
 	 * @throws LogHandlerException - If there was a problem parsing the line from the log file.
 	 */
 	public static Pizza createPizza(String line) throws PizzaException, LogHandlerException{
-		String PizzaStrArray[];
-		if (PizzaStrArray.length != 8){
-			throw new logHandlerException();
-		}
-		PizzaStrArray = line.split(",");
+		PizzaFactory factory= new PizzaFactory();
+		String PizzaStrArray[]=line.split(",");
+		
+		
 		if (Integer.parseInt(PizzaStrArray[8]) > 10 | Integer.parseInt(PizzaStrArray[8]) < 1){
 			throw new PizzaException();
 		}
-		Pizza newPizza = PizzaFactory.getPizza(PizzaStrArray[7], Integer.parseInt(PizzaStrArray[8]), LocalTime.parse(PizzaStrArray[0]) ,LocalTime.parse(PizzaStrArray[1]));
+		return  factory.getPizza(PizzaStrArray[7], Integer.parseInt(PizzaStrArray[8]), LocalTime.parse(PizzaStrArray[0]) ,LocalTime.parse(PizzaStrArray[1]));
 	}
 }

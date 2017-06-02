@@ -32,17 +32,19 @@ public class PizzaFactory {
 		if (pizzaCode != "PZM" && pizzaCode != "PZV" && pizzaCode != "PZL"){
 			throw new PizzaException();
 		}
+		Pizza returnPizza= new MargheritaPizza(quantity, orderTime, deliveryTime);
 		if (pizzaCode == "PZM"){
-			Pizza newPizza = new MargheritaPizza(quantity, orderTime, deliveryTime);
-			return newPizza;
+			returnPizza = new MargheritaPizza(quantity, orderTime, deliveryTime);
+			
 			}
-		if (pizzaCode == "PZV"){
-			Pizza newPizza = new VegetarianPizza(quantity, orderTime, deliveryTime);
-			return newPizza;
+		else if (pizzaCode == "PZV"){
+			returnPizza = new VegetarianPizza(quantity, orderTime, deliveryTime);
+			
 			}
 		else {
-			Pizza newPizza = new MeatLoversPizza(quantity, orderTime, deliveryTime);
-			return newPizza;
+			returnPizza = new MeatLoversPizza(quantity, orderTime, deliveryTime);
+			
 			}
+		return returnPizza;
 	}
 }
