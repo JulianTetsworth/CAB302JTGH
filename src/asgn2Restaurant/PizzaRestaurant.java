@@ -24,8 +24,8 @@ import asgn2Pizzas.Pizza;
  */
 public class PizzaRestaurant {
 
-	 ArrayList<Customer> customers=new ArrayList<Customer>();
-	ArrayList<Pizza> pizzas= new ArrayList<Pizza>();
+	 ArrayList<Customer> customers =new ArrayList<Customer>();
+	 ArrayList<Pizza> pizzas = new ArrayList<Pizza>();
 
 	
 	/**
@@ -157,7 +157,7 @@ public class PizzaRestaurant {
 	 */	
 	public double getTotalProfit(){
 		double profit = 0;
-		for (int i = 0; i > pizzas.size();i ++){
+		for (int i = 0; i < pizzas.size();i ++){
 			profit = profit + pizzas.get(i).getOrderProfit();
 		}
 		return profit;

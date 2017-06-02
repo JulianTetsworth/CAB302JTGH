@@ -42,8 +42,9 @@ public class LogHandler {
 		try{
 			
 			Scanner input = new Scanner(new File(filename));
-			if(!input.hasNextLine()){ throw new LogHandlerException("Log file empty"); }
-				
+			
+			if(!input.hasNextLine()){ 
+				throw new LogHandlerException("Log file empty"); }
 			else{
 			while(input.hasNextLine()){
 				String line= input.nextLine();
@@ -74,16 +75,26 @@ public class LogHandler {
 		
 		
 		try{
-			Scanner input = new Scanner(new File(filename));
-			while(input.hasNextLine()){
-				try{
-				
-				PizzaList.add(createPizza(input.nextLine()));
-				} catch (Exception PizzaException){
-					System.err.println("Error " + PizzaException.getMessage());
-				}
+			Scanner input = new Scanner(new File(".//logs/" + filename));
+			
+			if(!input.hasNextLine()){
+				input.close();
+				throw new LogHandlerException();
 			}
-			input.close();
+			
+			else{
+				while(input.hasNextLine()){
+				String textData = input.nextLine();
+				try{
+					PizzaList.add(createPizza(textData));
+					} catch (Exception PizzaException){
+						input.close();
+						throw new PizzaException();
+					}
+				}	
+				input.close();
+			}
+
 		}
 		catch (Exception LogHandlerException){
 			System.err.println("Error " + LogHandlerException.getMessage());
@@ -111,7 +122,7 @@ public class LogHandler {
 		try{
 		newCustomer=factory.getCustomer(strArray[4],strArray[2],strArray[3],Integer.parseInt(strArray[4]),Integer.parseInt(strArray[5]));
 		}catch(Exception CustomerException){
-			System.err.println("Error: " + CustomerException.getMessage());
+			throw new CustomerException();
 		}
 		return newCustomer;
 	
@@ -119,6 +130,7 @@ public class LogHandler {
 		
 		
 	}
+	
 	
 	/**
 	 * Creates a Pizza object by parsing the information contained in a single line of the log file. The format of 
@@ -129,13 +141,24 @@ public class LogHandler {
 	 * @throws LogHandlerException - If there was a problem parsing the line from the log file.
 	 */
 	public static Pizza createPizza(String line) throws PizzaException, LogHandlerException{
-		PizzaFactory factory= new PizzaFactory();
-		String PizzaStrArray[]=line.split(",");
+		LocalTime openingTime = LocalTime.of(19, 0);
+		LocalTime closingTime = LocalTime.of(23, 0); 
+		String PizzaStrArray[]=line.split(",");	
 		
+		if (PizzaStrArray.length != 9){
+			throw new LogHandlerException();
+		}
 		
-		if (Integer.parseInt(PizzaStrArray[8]) > 10 | Integer.parseInt(PizzaStrArray[8]) < 1){
+		int quantity = Integer.parseInt(PizzaStrArray[8]);
+		String pizzaCode = PizzaStrArray[7];
+		LocalTime orderTime = LocalTime.parse(PizzaStrArray[0]);
+		LocalTime deliveryTime = LocalTime.parse(PizzaStrArray[1]);
+		
+		if (quantity > 10 | quantity < 1 | orderTime.isAfter(closingTime) | orderTime.isBefore(openingTime)){
 			throw new PizzaException();
 		}
-		return  factory.getPizza(PizzaStrArray[7], Integer.parseInt(PizzaStrArray[8]), LocalTime.parse(PizzaStrArray[0]) ,LocalTime.parse(PizzaStrArray[1]));
+		
+		
+		return  PizzaFactory.getPizza(pizzaCode, quantity, orderTime , deliveryTime);
 	}
 }

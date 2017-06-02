@@ -16,7 +16,7 @@ import asgn2Exceptions.PizzaException;
 public class MeatLoversPizza extends Pizza {
 
 	private static String type = "MeatLovers";
-	private static double price = 8;
+	private static double price = 12;
 	/**
 	 * 
 	 *  This class represents a meat lovers pizza made at the  Pizza Palace restaurant. The meat lovers pizza has certain

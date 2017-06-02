@@ -25,8 +25,8 @@ public abstract class Pizza  {
 	private String type;
 	private double price;
 	private double cost;
-	private LocalTime openingTime = LocalTime.of(7, 0);
-	private LocalTime closingTime = LocalTime.of(21, 0); 
+	private LocalTime openingTime = LocalTime.of(19, 0);
+	private LocalTime closingTime = LocalTime.of(23, 0); 
 	
 	/**
 	 *  This class represents a pizza produced at the Pizza Palace restaurant.  A detailed description of the class's fields
@@ -46,7 +46,7 @@ public abstract class Pizza  {
 	 * 
 	 */
 	public Pizza(int quantity, LocalTime orderTime, LocalTime deliveryTime, String type, double price) throws PizzaException{
-		if (quantity > 1 | quantity < 10 | orderTime.isAfter(closingTime) | orderTime.isBefore(openingTime)){
+		if (quantity < 1 | quantity > 10 | orderTime.isAfter(closingTime) | orderTime.isBefore(openingTime)){
 			throw new PizzaException();
 		}
 		this.quantity = quantity;
@@ -63,14 +63,14 @@ public abstract class Pizza  {
 	 * <P> POST: The cost field is set to sum of the Pizzas's toppings
 	 */
 	public final void calculateCostPerPizza(){
-		if (type == "Margherita"){
+		if (type == "Margherita"){ //cost = 1.5
 			cost = PizzaTopping.CHEESE.getCost() + PizzaTopping.TOMATO.getCost();
 		}
-		if (type == "MeatLovers"){
+		if (type == "MeatLovers"){ //cost = 5
 			cost = PizzaTopping.CHEESE.getCost() + PizzaTopping.TOMATO.getCost() + PizzaTopping.BACON.getCost()
 			+ PizzaTopping.PEPPERONI.getCost() + PizzaTopping.SALAMI.getCost();
 		}
-		if (type == "Vegetarian"){
+		if (type == "Vegetarian"){ //cost = 5.5
 			cost = PizzaTopping.CHEESE.getCost() + PizzaTopping.TOMATO.getCost() + PizzaTopping.CAPSICUM.getCost()
 			+ PizzaTopping.EGGPLANT.getCost() + PizzaTopping.MUSHROOM.getCost();
 		}
@@ -81,6 +81,7 @@ public abstract class Pizza  {
 	 * @return The amount that an individual pizza costs to make.
 	 */
 	public final double getCostPerPizza(){
+		calculateCostPerPizza();
 		return cost;
 	}
 

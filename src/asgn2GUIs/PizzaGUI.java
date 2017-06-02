@@ -37,6 +37,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	
 	
 	PizzaRestaurant restaurant = new PizzaRestaurant();
+	private boolean fileIsLoaded;
 	
 	/**
 	 * Creates a new Pizza GUI with the specified title 
@@ -51,7 +52,12 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		JButton loadFile=new JButton("Load File");
 		loadFile.setBounds(130,100,100, 40);          
 		f.add(loadFile);
-		loadFile.addActionListener(this);        
+		loadFile.addActionListener(this);     
+		
+		JButton displayInfo=new JButton("displayInfo");
+		loadFile.setBounds(130,100,100, 40);          
+		f.add(loadFile);
+		loadFile.addActionListener(this); 
 
 	}
 	
@@ -63,12 +69,16 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		            chooser.getSelectedFile().getName());
 		       try {
 		       		restaurant.processLog(chooser.getSelectedFile().getName());
+		       		fileIsLoaded = true; 
+		       		
 		       } catch (Exception LogFileException){
 		    	   System.err.println("Error " + LogFileException.getMessage());
+		    	   fileIsLoaded = false;
 		       }
 		    }
  }
 
+	// private void displayInformatio  
 	
 	@Override
 	public void run() {

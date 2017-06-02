@@ -16,7 +16,7 @@ import asgn2Exceptions.PizzaException;
  */
 public class VegetarianPizza extends Pizza {
 	private static String type = "Vegetarian";
-	private static double price = 8;
+	private static double price = 10;
 	/**
 	 * 
 	 *  This class represents a vegetarian pizza made at the  Pizza Palace restaurant. The vegetarian pizza has certain
