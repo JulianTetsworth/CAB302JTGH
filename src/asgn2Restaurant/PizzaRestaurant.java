@@ -59,16 +59,18 @@ public class PizzaRestaurant {
 		boolean noException= true;
 		
 		try{
-		pizzas = LogHandler.populatePizzaDataset(filename);
+		this.pizzas = LogHandler.populatePizzaDataset(filename);
 		} catch (Exception PizzaException){
-			System.err.println("Error " + PizzaException.getMessage());
-			noException=false;			
+			noException=false;	
+			throw new PizzaException("Problem processing pizza log");
+					
 		}
 		try {
-		customers = LogHandler.populateCustomerDataset(filename);
+		this.customers = LogHandler.populateCustomerDataset(filename);
 		} catch (Exception CustomerException){
-			System.err.println("Error " + CustomerException.getMessage());
 			noException=false;
+			throw new CustomerException("Problem processing customer log");
+			
 		
 		}
 		

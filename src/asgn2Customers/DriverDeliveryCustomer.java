@@ -31,15 +31,10 @@ public class DriverDeliveryCustomer extends Customer {
 	 */
 	public DriverDeliveryCustomer(String name, String mobileNumber, int locationX, int locationY) throws CustomerException {
 		super(name,mobileNumber,locationX,locationY,"Driver Delivery");
-		if (name.length()==0||name.length()>20||name.trim().length() > 0||mobileNumber.charAt(0)!=0||mobileNumber.length()!=10||locationX>10||locationX<-10
-				||locationY>10||locationY<-10){
-			throw new CustomerException(); 
-		}
-		else{
-			this.locationX=locationX;
-			this.locationY=locationY;
-		}
-		
+		this.locationX=locationX;
+		this.locationY=locationY;
+		if(locationX==0&&locationY==0){throw new CustomerException("Can not Deliver to the store");}
+		 
 	}
 	
 	/**

@@ -13,8 +13,7 @@ import asgn2Exceptions.CustomerException;
 public class DroneDeliveryCustomer extends Customer {
 	private int locationX;
 	private int locationY;
-	private String name;
-	private String mobileNumber;
+	
 
 	/**
 	 *  This class represents a customer of the Pizza Palace restaurant that has chosen to have their pizza delivered by 
@@ -33,14 +32,10 @@ public class DroneDeliveryCustomer extends Customer {
 	 */
 	public DroneDeliveryCustomer(String name, String mobileNumber, int locationX, int locationY) throws CustomerException {
 		super(name,mobileNumber,locationX,locationY,"Drone Delivery");
-		if (name.length()==0||name.length()>20||name.trim().length() > 0||mobileNumber.charAt(0)!=0||mobileNumber.length()!=10||locationX>10||locationX<-10
-				||locationY>10||locationY<-10){
-			throw new CustomerException(); 
-		}
-		else{
-			this.locationX=locationX;
-			this.locationY=locationY;
-		}
+		this.locationX=locationX;
+		this.locationY=locationY;
+		if(locationX==0&&locationY==0){throw new CustomerException("Can not Deliver to the store");}
+		
 		
 	}
 	
@@ -53,7 +48,7 @@ public class DroneDeliveryCustomer extends Customer {
 	 */
 	@Override
 	public double getDeliveryDistance() {
-		return  Math.sqrt((this.locationX^2)+(this.locationY^2));
+		return  Math.sqrt((this.locationX*this.locationX)+(this.locationY*this.locationY));
 		
 
 	}

@@ -35,11 +35,15 @@ public abstract class Customer {
 	 * 
 	 */
 	public Customer(String name, String mobileNumber, int locationX, int locationY, String type) throws CustomerException{
-		if (name.length()==0||name.length()>20||name.trim().length() > 0||mobileNumber.charAt(0)!=0||mobileNumber.length()!=10||locationX>10||locationX<-10
+		
+		
+		
+		if (name.length()==0||name.length()>20||name.trim().length() == 0||mobileNumber.charAt(0)!='0'||mobileNumber.length()!=10||locationX>10||locationX<-10
 				||locationY>10||locationY<-10){
-			throw new CustomerException();
+			throw new CustomerException("Incorrect Customer Parameters");
 		}
 		else {
+			this.locationY=locationY;
 			this.locationX=locationX;
 			this.name=name;
 			this.mobileNumber=mobileNumber;

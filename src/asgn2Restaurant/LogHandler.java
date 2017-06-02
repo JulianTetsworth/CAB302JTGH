@@ -37,26 +37,33 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
-		ArrayList<Customer> customerList=null;
+		ArrayList<Customer> customerList= new ArrayList<Customer>();
 	
 		try{
 			
-			Scanner input = new Scanner(new File(filename));
+			Scanner input = new Scanner(new File(".//logs/"+filename));
 			
-			if(!input.hasNextLine()){ 
+			if(!input.hasNextLine()){
+				input.close();
 				throw new LogHandlerException("Log file empty"); }
+				
 			else{
+				
 			while(input.hasNextLine()){
-				String line= input.nextLine();
+				
+				String line= input.nextLine();				
+				
+				
 				try{
 				customerList.add(createCustomer(line));
 				} catch (Exception CustomerException){
-					System.err.println(CustomerException.getMessage());}
+					throw new CustomerException();}
 				}			
 			
 			input.close();}
+			
 				} catch (Exception LogHandlerException){
-					  System.err.println("Error: " + LogHandlerException.getMessage());
+					  throw new LogHandlerException();
 				}
 			
 		return customerList;
@@ -113,20 +120,36 @@ public class LogHandler {
 	 */
 	public static Customer createCustomer(String line) throws CustomerException, LogHandlerException{
 		Customer newCustomer=null;
-		CustomerFactory factory= new CustomerFactory();
 		
 		
+		try{
 		String strArray[]=line.split(",");
 		
-		if(Array.getLength(strArray)!=8){throw new LogHandlerException("");}
+		String name=strArray[2];
+		String mobile=strArray[3].trim();
+		String code=strArray[4].trim();
+		
+		
+		int x=	Integer.parseInt(strArray[5]);
+		int y= Integer.parseInt(strArray[6]);
+		
+					
+		if(Array.getLength(strArray)!=9){throw new LogHandlerException();}
 		try{
-		newCustomer=factory.getCustomer(strArray[4],strArray[2],strArray[3],Integer.parseInt(strArray[4]),Integer.parseInt(strArray[5]));
+		newCustomer=CustomerFactory.getCustomer(code,name,mobile,x,y);
 		}catch(Exception CustomerException){
 			throw new CustomerException();
 		}
+		
+		}catch(Exception LogHandlerException){
+			throw new LogHandlerException();
+		}
+		
+		if (newCustomer==null){
+			throw new LogHandlerException("Error with log file");
+		};
 		return newCustomer;
 	
-		
 		
 		
 	}

@@ -30,10 +30,7 @@ public class PickUpCustomer extends Customer {
 	public PickUpCustomer(String name, String mobileNumber, int locationX,  int locationY) throws CustomerException {
 		
 		super(name,mobileNumber,0,0,"Pick Up");
-		if (name.length()==0||name.length()>20||name.trim().length() > 0||mobileNumber.charAt(0)!=0||mobileNumber.length()!=10||locationX>10||locationX<-10
-				||locationY>10||locationY<-10){
-			throw new CustomerException(); 
-		}
+		if(locationX!=0||locationY!=0){throw new CustomerException("You must pick up from the store");}
 	
 		
 	}
